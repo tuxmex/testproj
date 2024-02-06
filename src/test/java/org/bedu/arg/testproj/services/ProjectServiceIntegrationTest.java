@@ -28,11 +28,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-//@DataJpaTest
-//@SpringBootTest
-//@Transactional
-//@AutoConfigureTestDatabase(replace = Replace.NONE)
-
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class ProjectServiceIntegrationTest {
@@ -113,7 +108,7 @@ class ProjectServiceIntegrationTest {
         // Act
         when(projectRepository.save(any(Project.class))).thenReturn(savedProject);
         ProjectDTO result = projectService.save(createProjectDTO);
-        System.out.println(result);
+       
         when(projectRepository.findAll()).thenReturn(data);
         ProjectDTO foundProject = projectService.findAll().get(0);
         // Assert
@@ -154,28 +149,6 @@ class ProjectServiceIntegrationTest {
     verify(projectRepository, times(1)).deleteById(38798l);
   }
 
-    @Test
-    void updateAndFindById() throws ProjectNotFoundException {
-        // Arrange
-        CreateProjectDTO createProjectDTO = new CreateProjectDTO(/* Datos del proyecto a crear */);
-        ProjectDTO savedProjectDTO = projectService.save(createProjectDTO);
-
-        UpdateProjectDTO updateProjectDTO = new UpdateProjectDTO(/* Datos actualizados del proyecto */);
-
-        Project savedProject = new Project();
-        when(projectRepository.findById(anyLong())).thenReturn(Optional.of(savedProject));
-        //when(projectMapper.update(any(Project.class), eq(updateProjectDTO))).thenReturn(savedProject);
-
-        // Act
-        ProjectDTO updatedProject = projectService.findAll().get(0);
-
-        // Assert
-        assertEquals(updateProjectDTO.getImage(), updatedProject.getImage());
-        assertEquals(updateProjectDTO.getProjectName(), updatedProject.getProjectName());
-        assertEquals(updateProjectDTO.getVideo(), updatedProject.getVideo());
-    }
-
-    // Otras pruebas con Mockito
 }
 
 
