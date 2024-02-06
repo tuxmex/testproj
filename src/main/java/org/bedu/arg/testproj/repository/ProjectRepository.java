@@ -11,6 +11,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     //List<Project> findByImageExtension(String extension);
 
-    List<Project> findByProjectNameContaining(String name);
+    List<Project> findByProjectNameContaining(String name);    
 
 }

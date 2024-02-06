@@ -16,19 +16,21 @@ import java.util.List;
 
 @Service
 public class ProjectService {
+    
     private final ProjectRepository repository;
 
     private final ProjectMapper mapper;
 
-    @Autowired(required = false)
+    @Autowired
     public ProjectService(ProjectRepository repository, ProjectMapper mapper) {
         this.mapper = mapper;
         this.repository = repository;
     }
 
-
+    @Transactional
     public List<ProjectDTO> findAll() {
         List<Project> data = repository.findAll();
+        System.out.println("Proyectos: "+ data);
         return mapper.toDTO(data);
     }
 

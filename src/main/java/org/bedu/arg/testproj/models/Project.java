@@ -52,4 +52,12 @@ public class Project {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Project [id=" + id + ", projectName=" + projectName + ", image=" + image + ", video=" + video
+                + ", recordAt=" + recordAt + ", members=" + members + "]";
+    }
+
+    
+
 }
