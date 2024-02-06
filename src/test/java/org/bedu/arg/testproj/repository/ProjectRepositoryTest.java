@@ -13,21 +13,18 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
+@ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 class ProjectRepositoryTest {
-    
+    @Autowired
     ProjectRepository repository;
+    @Autowired
     TestEntityManager manager;
 
-    @Autowired
-    public ProjectRepositoryTest(ProjectRepository repository, TestEntityManager manager) {
-        this.repository = repository;
-        this.manager = manager;
-    }
 
     @Test
     @DisplayName("Repository should be injected")

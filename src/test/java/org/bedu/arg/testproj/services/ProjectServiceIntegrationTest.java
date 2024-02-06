@@ -9,39 +9,43 @@ import org.bedu.arg.testproj.mapper.ProjectMapper;
 import org.bedu.arg.testproj.models.Project;
 import org.bedu.arg.testproj.repository.ProjectRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+//@DataJpaTest
+//@SpringBootTest
+//@Transactional
+
+@ExtendWith(MockitoExtension.class)
 @DataJpaTest
-@SpringBootTest
-@Transactional
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class ProjectServiceIntegrationTest {
 
-    ProjectService projectService;
-    ProjectRepository projectRepository;
-    ProjectMapper projectMapper;
-
-    
     @Autowired
-    public ProjectServiceIntegrationTest(ProjectService projectService, ProjectRepository projectRepository,
-            ProjectMapper projectMapper) {
-        this.projectService = projectService;
-        this.projectRepository = projectRepository;
-        this.projectMapper = projectMapper;
-    }
+    ProjectService projectService;
+    @MockBean
+    ProjectRepository projectRepository;
+    @Autowired
+    ProjectMapper projectMapper;
 
     @Test
     void saveAndFindAll() {
         // Arrange
-        CreateProjectDTO createProjectDTO = new CreateProjectDTO(/* Datos del proyecto a crear */);
+        CreateProjectDTO createProjectDTO = new CreateProjectDTO();
+        createProjectDTO.setImage("image2.jpg");
+        createProjectDTO.setVideo("video.mp4");
+        createProjectDTO.setProjectName("Mi proyecto X");
 
         // Act
         ProjectDTO savedProject = projectService.save(createProjectDTO);
+        System.out.println("Projecto ARG: "+savedProject);
         ProjectDTO foundProject = projectService.findAll().get(0);
 
         // Assert
