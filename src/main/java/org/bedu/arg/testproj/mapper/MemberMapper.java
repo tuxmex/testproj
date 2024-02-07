@@ -16,10 +16,12 @@ public interface MemberMapper {
     List<MemberDTO> toDTO(List<Member> model);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "project", ignore= true)
     Member toModel(CreateMemberDTO dto);
 
     // En vez de transformar un UpdateMemberDTO a Member
     // actualiza la referencia de Member con lo que haya en UpdateMemberDTO
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "project", ignore = true)
     void update(@MappingTarget Member member, UpdateMemberDTO data);
 }

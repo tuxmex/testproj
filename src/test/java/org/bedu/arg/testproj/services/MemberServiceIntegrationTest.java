@@ -51,6 +51,7 @@ class MemberServiceIntegrationTest {
         when(memberRepository.save(any(Member.class))).thenReturn(model);
         data.add(model);
         when(memberRepository.findAll()).thenReturn(data);
+        System.out.println("Data: "+data);
         MemberDTO foundMember = memberService.findAll().get(0);
 
         // Assert

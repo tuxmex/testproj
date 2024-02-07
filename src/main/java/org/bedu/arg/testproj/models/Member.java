@@ -22,4 +22,11 @@ public class Member {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @Override
+    public String toString() {
+        return "Member [id=" + id + ", memberName=" + memberName + ", email=" + email + ", project=" + project + "]";
+    }
+
+    
 }

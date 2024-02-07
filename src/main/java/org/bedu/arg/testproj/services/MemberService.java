@@ -10,24 +10,33 @@ import org.bedu.arg.testproj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MemberService {
 
+    private final MemberRepository repository;
+    private final MemberMapper mapper;
+
     @Autowired
-    private MemberRepository repository;
+    public MemberService(MemberRepository repository, MemberMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
-    @Autowired(required = false)
-    private MemberMapper mapper;
-
+    @Transactional
     public List<MemberDTO> findAll() {
         return mapper.toDTO(repository.findAll());
     }
 
+    @Transactional
     public MemberDTO save(CreateMemberDTO data) {
+        System.out.println("To Model: "+mapper.toModel(data));
         Member entity = repository.save(mapper.toModel(data));
+        System.out.println("Guardada: "+ entity);
         return mapper.toDTO(entity);
     }
 
