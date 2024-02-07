@@ -4,6 +4,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id "org.sonarqube" version "4.4.1.3373"
+	id 'jacoco'
 }
 
 group = 'org.bedu.arg'
@@ -45,4 +46,15 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+
+jacoco {
+    toolVersion = "0.8.7" // Verifica la última versión en el repositorio de Maven
+}
+
+test {
+    jacoco {
+        enabled = true
+    }
 }
