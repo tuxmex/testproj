@@ -30,7 +30,4 @@ public interface ProjectMapper {
     @Mapping(target = "id", ignore = true)
     void update(@MappingTarget Project model, UpdateProjectDTO dto);
 
-    //ToDo
-    //MemberInProjectDTO memberToMemberInProjectDTO(Member member);
-
 }

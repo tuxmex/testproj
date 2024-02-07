@@ -1,5 +1,6 @@
 package org.bedu.arg.testproj.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.bedu.arg.testproj.models.Project;
@@ -59,6 +60,6 @@ class ProjectRepositoryTest {
 
         List<Project> result = repository.findByProjectNameContaining("Project");
 
-        assertTrue(result.size() == 3);
+        assertEquals(3, result.size());
     }
 }

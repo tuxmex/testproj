@@ -8,9 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-
-    //List<Project> findByImageExtension(String extension);
-
     List<Project> findByProjectNameContaining(String name);    
-
 }

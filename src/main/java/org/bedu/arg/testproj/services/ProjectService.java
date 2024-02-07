@@ -30,7 +30,6 @@ public class ProjectService {
     @Transactional
     public List<ProjectDTO> findAll() {
         List<Project> data = repository.findAll();
-        System.out.println("Proyectos: "+ data);
         return mapper.toDTO(data);
     }
 

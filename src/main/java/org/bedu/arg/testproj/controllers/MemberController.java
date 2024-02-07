@@ -21,8 +21,12 @@ import java.util.List;
 @RequestMapping("member")
 public class MemberController {
 
+    private final MemberService service;
+ 
     @Autowired
-    private MemberService service;
+    public MemberController(MemberService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

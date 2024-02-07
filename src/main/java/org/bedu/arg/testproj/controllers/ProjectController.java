@@ -19,8 +19,12 @@ import java.util.List;
 @RequestMapping("project")
 public class ProjectController {
 
+    private final ProjectService projectService;
+    
     @Autowired
-    private ProjectService projectService;
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

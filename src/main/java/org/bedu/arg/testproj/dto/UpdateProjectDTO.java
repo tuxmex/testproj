@@ -13,7 +13,5 @@ public class UpdateProjectDTO {
     private String video;
     @NotBlank(message = "La imagen es obligatoria")
     private String image;
-   // @NotBlank(message = "Se debe incluir la fecha de registro")
-   // private Date recordAt;
 
 }
