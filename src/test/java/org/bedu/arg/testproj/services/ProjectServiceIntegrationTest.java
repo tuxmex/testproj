@@ -128,8 +128,8 @@ class ProjectServiceIntegrationTest {
 
     project.setId(2874);
     project.setProjectName("Smart Office 2024");
-    project.setImage("smart_office_test.jpg");
-    project.setVideo("video_demo_so.mp4");
+    project.setImage("smart_office_test_changed.jpg");
+    project.setVideo("video_demo_so_changed.mp4");
 
     when(projectRepository.findById(anyLong())).thenReturn(Optional.of(project));
 

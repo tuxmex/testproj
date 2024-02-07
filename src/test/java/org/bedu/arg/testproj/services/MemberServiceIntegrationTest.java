@@ -3,6 +3,7 @@ package org.bedu.arg.testproj.services;
 import org.bedu.arg.testproj.dto.CreateMemberDTO;
 import org.bedu.arg.testproj.dto.MemberDTO;
 import org.bedu.arg.testproj.dto.UpdateMemberDTO;
+import org.bedu.arg.testproj.dto.UpdateProjectDTO;
 import org.bedu.arg.testproj.exceptions.MemberNotFoundException;
 import org.bedu.arg.testproj.mapper.MemberMapper;
 import org.bedu.arg.testproj.models.Member;
@@ -24,10 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -117,19 +122,24 @@ class MemberServiceIntegrationTest {
     @Test
     void updateAndFindById() throws MemberNotFoundException {
         // Arrange
-        CreateMemberDTO createMemberDTO = new CreateMemberDTO(/* Datos del miembro a crear */);
-        MemberDTO savedMember = memberService.save(createMemberDTO);
-
-        UpdateMemberDTO updateMemberDTO = new UpdateMemberDTO(/* Datos actualizados del miembro */);
+        UpdateMemberDTO dto = new UpdateMemberDTO();
+        dto.setMemberName("Juan");
+        dto.setEmail("crackiman@gmail.com");
+        
+        Member savedMember = new Member();
+        savedMember.setId(3325L);
+        savedMember.setMemberName("Juan Perez");
+        savedMember.setEmail("mychangedemail@gmail.com");
 
         // Act
-        memberService.update(savedMember.getId(), updateMemberDTO);
-        MemberDTO updatedMember = memberService.findAll().get(0);
+        when(memberRepository.findById(anyLong())).thenReturn(Optional.of(savedMember));
+        memberService.update(3325, dto);
 
         // Assert
-        assertEquals(updateMemberDTO.getEmail(), updatedMember.getEmail());
-        
-        // Agrega más aserciones según sea necesario
+        assertEquals(dto.getMemberName(), savedMember.getMemberName());
+        assertEquals(dto.getEmail(), savedMember.getEmail());
+        verify(memberRepository, times(1)).save(savedMember);
+    
     }
 
     @Test
