@@ -7,8 +7,12 @@ import org.bedu.arg.testproj.exceptions.MemberNotFoundException;
 import org.bedu.arg.testproj.mapper.MemberMapper;
 import org.bedu.arg.testproj.models.Member;
 import org.bedu.arg.testproj.repository.MemberRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,12 +28,20 @@ import java.util.List;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class MemberServiceIntegrationTest {
-    @Autowired
-    MemberService memberService;
-    @MockBean
-    MemberRepository memberRepository;
-    @Autowired
-    MemberMapper memberMapper;
+   @InjectMocks
+    private MemberService memberService;
+
+    @Mock
+    private MemberRepository memberRepository;
+
+    @Mock
+    private MemberMapper memberMapper;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
 
     @Test
     void saveAndFindAll() {
@@ -37,21 +49,26 @@ class MemberServiceIntegrationTest {
         CreateMemberDTO createMemberDTO = new CreateMemberDTO();
         createMemberDTO.setMemberName("Juan");
         createMemberDTO.setEmail("crackiman@gmail.com");
-        
+
         Member model = new Member();
         model.setId(8794L);
         model.setMemberName(createMemberDTO.getMemberName());
         model.setEmail(createMemberDTO.getEmail());
+
+        MemberDTO savedMemberDTO = new MemberDTO();
+        savedMemberDTO.setMemberName(model.getMemberName());
+        savedMemberDTO.setEmail(model.getEmail());
+
         List<Member> data = new LinkedList<>();
-     
-        // Act
-        System.out.println(createMemberDTO);
-        MemberDTO savedMember = memberService.save(createMemberDTO);
-        System.out.println(savedMember);
-        when(memberRepository.save(any(Member.class))).thenReturn(model);
         data.add(model);
+
+        // Configuración del mock para el repository y el mapper
+        when(memberRepository.save(any(Member.class))).thenReturn(model);
+        when(memberMapper.toDTO(any(Member.class))).thenReturn(savedMemberDTO);
         when(memberRepository.findAll()).thenReturn(data);
-        System.out.println("Data: "+data);
+
+        // Act
+        MemberDTO savedMember = memberService.save(createMemberDTO);
         MemberDTO foundMember = memberService.findAll().get(0);
 
         // Assert

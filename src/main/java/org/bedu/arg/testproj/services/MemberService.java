@@ -34,9 +34,7 @@ public class MemberService {
 
     @Transactional
     public MemberDTO save(CreateMemberDTO data) {
-        System.out.println("To Model: "+mapper.toModel(data));
         Member entity = repository.save(mapper.toModel(data));
-        System.out.println("Guardada: "+ entity);
         return mapper.toDTO(entity);
     }
 
