@@ -6,7 +6,6 @@ import org.bedu.arg.testproj.dto.UpdateMemberDTO;
 import org.bedu.arg.testproj.exceptions.MemberNotFoundException;
 import org.bedu.arg.testproj.mapper.MemberMapper;
 import org.bedu.arg.testproj.models.Member;
-import org.bedu.arg.testproj.models.Project;
 import org.bedu.arg.testproj.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,12 +43,12 @@ class MemberServiceIntegrationTest {
         model.setMemberName(createMemberDTO.getMemberName());
         model.setEmail(createMemberDTO.getEmail());
         List<Member> data = new LinkedList<>();
-        data.add(model);
-        
+     
         // Act
         MemberDTO savedMember = memberService.save(createMemberDTO);
-        
         when(memberRepository.save(any(Member.class))).thenReturn(model);
+        data.add(model);
+        when(memberRepository.findAll()).thenReturn(data);
         MemberDTO foundMember = memberService.findAll().get(0);
 
         // Assert

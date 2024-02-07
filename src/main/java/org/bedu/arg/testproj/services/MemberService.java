@@ -27,7 +27,6 @@ public class MemberService {
     }
 
     public MemberDTO save(CreateMemberDTO data) {
-       
         Member entity = repository.save(mapper.toModel(data));
         return mapper.toDTO(entity);
     }
