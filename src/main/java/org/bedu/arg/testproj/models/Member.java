@@ -1,8 +1,6 @@
 package org.bedu.arg.testproj.models;
 
 import org.bedu.arg.testproj.dto.PatchMemberDTO;
-import org.bedu.arg.testproj.dto.PatchProjectDTO;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
