@@ -50,7 +50,7 @@ tasks.named('test') {
 
 
 jacoco {
-    toolVersion = "0.8.7" // Verifica la última versión en el repositorio de Maven
+    toolVersion = "0.8.11" 
 }
 
 test {
