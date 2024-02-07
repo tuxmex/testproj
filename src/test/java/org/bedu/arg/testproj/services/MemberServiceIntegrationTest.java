@@ -45,7 +45,9 @@ class MemberServiceIntegrationTest {
         List<Member> data = new LinkedList<>();
      
         // Act
+        System.out.println(createMemberDTO);
         MemberDTO savedMember = memberService.save(createMemberDTO);
+        System.out.println(savedMember);
         when(memberRepository.save(any(Member.class))).thenReturn(model);
         data.add(model);
         when(memberRepository.findAll()).thenReturn(data);
