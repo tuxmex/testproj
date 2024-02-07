@@ -8,6 +8,7 @@ import org.bedu.arg.testproj.mapper.MemberMapper;
 import org.bedu.arg.testproj.models.Member;
 import org.bedu.arg.testproj.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,8 +18,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -28,19 +32,61 @@ import java.util.List;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class MemberServiceIntegrationTest {
-   @InjectMocks
+    @Autowired
     private MemberService memberService;
 
-    @Mock
+    @MockBean
     private MemberRepository memberRepository;
 
-    @Mock
+    @Autowired
     private MemberMapper memberMapper;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+
+    @Test
+    @DisplayName("Service should return members from repository")
+    void findAllTest() {
+        List<Member> data = new LinkedList<>();
+
+        Member member = new Member();
+
+        member.setId(6548L);
+        member.setMemberName("Laura Moctezuma");
+        member.setEmail("lmoctezuma@gmail.com");
+
+        data.add(member);
+
+        when(memberRepository.findAll()).thenReturn(data);
+
+        List<MemberDTO> result = memberService.findAll();
+
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertEquals(member.getId(), result.get(0).getId());
+        assertEquals(member.getMemberName(), result.get(0).getMemberName());
+        assertEquals(member.getEmail(), result.get(0).getEmail());
+  }
+
+  @Test
+  @DisplayName("Service should save a movie in repository")
+  void saveTest() {
+    CreateMemberDTO createMemberDTO = new CreateMemberDTO();
+    createMemberDTO.setMemberName("Juan");
+    createMemberDTO.setEmail("crackiman@gmail.com");
+    
+    Member model = new Member();
+    model.setId(8794L);
+    model.setMemberName(createMemberDTO.getMemberName());
+    model.setEmail(createMemberDTO.getEmail());
+    
+    when(memberRepository.save(any(Member.class))).thenReturn(model);
+
+    MemberDTO result = memberService.save(createMemberDTO);
+
+    assertNotNull(result);
+    assertEquals(model.getId(), result.getId());
+    assertEquals(model.getMemberName(), result.getMemberName());
+    assertEquals(model.getEmail(), result.getEmail());
+  }
 
 
     @Test
@@ -49,30 +95,23 @@ class MemberServiceIntegrationTest {
         CreateMemberDTO createMemberDTO = new CreateMemberDTO();
         createMemberDTO.setMemberName("Juan");
         createMemberDTO.setEmail("crackiman@gmail.com");
-
-        Member model = new Member();
-        model.setId(8794L);
-        model.setMemberName(createMemberDTO.getMemberName());
-        model.setEmail(createMemberDTO.getEmail());
-
-        MemberDTO savedMemberDTO = new MemberDTO();
-        savedMemberDTO.setMemberName(model.getMemberName());
-        savedMemberDTO.setEmail(model.getEmail());
-
+        
+        Member savedMember = new Member();
+        savedMember.setId(3325L);
+        savedMember.setMemberName(createMemberDTO.getMemberName());
+        savedMember.setEmail(createMemberDTO.getEmail());
         List<Member> data = new LinkedList<>();
-        data.add(model);
-
-        // Configuración del mock para el repository y el mapper
-        when(memberRepository.save(any(Member.class))).thenReturn(model);
-        when(memberMapper.toDTO(any(Member.class))).thenReturn(savedMemberDTO);
-        when(memberRepository.findAll()).thenReturn(data);
-
+    
         // Act
-        MemberDTO savedMember = memberService.save(createMemberDTO);
+        when(memberRepository.save(any(Member.class))).thenReturn(savedMember); // Simulamos la llamada al repositorio
+        MemberDTO result = memberService.save(createMemberDTO);
+
+        data.add(memberMapper.toModel(createMemberDTO));
+        when(memberRepository.findAll()).thenReturn(data);
         MemberDTO foundMember = memberService.findAll().get(0);
 
         // Assert
-        assertEquals(savedMember.getMemberName(), foundMember.getMemberName());
+        assertEquals(result.getMemberName(), foundMember.getMemberName());
     }
 
     @Test

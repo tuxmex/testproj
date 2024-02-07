@@ -1,5 +1,8 @@
 package org.bedu.arg.testproj.models;
 
+import org.bedu.arg.testproj.dto.PatchMemberDTO;
+import org.bedu.arg.testproj.dto.PatchProjectDTO;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +29,15 @@ public class Member {
     @Override
     public String toString() {
         return "Member [id=" + id + ", memberName=" + memberName + ", email=" + email + ", project=" + project + "]";
+    }
+
+    public void updateFromPatchDTO(PatchMemberDTO patchDTO) {
+        if (patchDTO.getMemberName() != null) {
+            this.memberName = patchDTO.getMemberName();
+        }
+        if (patchDTO.getEmail() != null) {
+            this.email = patchDTO.getMemberName();
+        }    
     }
 
     

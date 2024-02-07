@@ -46,6 +46,7 @@ public class ErrorHandler {
         return ErrorDTO.builder()
                 .code("ERR_UNKNOWN")
                 .message("Ocurrió un error inesperado...")
+                .details(ex.getCause())
                 .build();
     }
 }

@@ -28,7 +28,6 @@ public interface ProjectMapper {
     ProjectWithMembersDTO projectToProjectWithMembersDTO(Project project);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "recordAt", ignore = true)
     void update(@MappingTarget Project model, UpdateProjectDTO dto);
 
     //ToDo

@@ -2,10 +2,14 @@ package org.bedu.arg.testproj.services;
 
 import org.bedu.arg.testproj.dto.CreateMemberDTO;
 import org.bedu.arg.testproj.dto.MemberDTO;
+import org.bedu.arg.testproj.dto.PatchMemberDTO;
+import org.bedu.arg.testproj.dto.PatchProjectDTO;
 import org.bedu.arg.testproj.dto.UpdateMemberDTO;
 import org.bedu.arg.testproj.exceptions.MemberNotFoundException;
+import org.bedu.arg.testproj.exceptions.ProjectNotFoundException;
 import org.bedu.arg.testproj.mapper.MemberMapper;
 import org.bedu.arg.testproj.models.Member;
+import org.bedu.arg.testproj.models.Project;
 import org.bedu.arg.testproj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +55,16 @@ public class MemberService {
         mapper.update(member, data);
 
         repository.save(member);
+    }
+
+    public Member patchMember(long memberId, PatchMemberDTO patchDTO) throws MemberNotFoundException {
+        Member member = repository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException(memberId));
+       member.updateFromPatchDTO(patchDTO);
+       return repository.save(member);
+    }
+
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 }

@@ -5,12 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class UpdateMemberDTO {
-
-    @NotBlank(message = "El nombre del proyecto es obligatorio")
+public class PatchMemberDTO {
+    @NotBlank(message = "El nombre del integrante es obligatorio")
     private String memberName;
-    @Email(message = "Teclea un email válido")
+    @Email(message = "Debe de ser un email valido")
     @NotBlank(message = "El email es obligatorio")
     private String email;
-
 }
