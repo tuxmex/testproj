@@ -7,7 +7,7 @@ plugins {
 	id 'jacoco'
 }
 
-group = 'org.bedu.arg'
+group = 'org.bedu.arg.testproj'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -64,7 +64,7 @@ jacocoTestReport {
             fileTree(dir: it,
                 exclude: [
                   'org/bedu/arg/testproj/dto/**',
-                  'org/bedu/arg/testproj/model/**',
+                  'org/bedu/arg/testproj/models/**',
                   'org/bedu/arg/testproj/mapper/**',
                   'org/bedu/arg/testproj/TestprojApplication.class'
                 ]
@@ -77,7 +77,7 @@ test {
   jacoco {
     excludes = [
       'org.bedu.arg.testproj.dto.*',
-      'org.bedu.arg.testproj.model.*',
+      'org.bedu.arg.testproj.models.*',
       'org.bedu.arg.testproj.mapper.*',
       'org.bedu.arg.testproj.TestprojApplication.class'
     ]
